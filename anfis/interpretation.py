@@ -1,5 +1,5 @@
 import itertools
-from typing import List, cast
+from typing import List, cast, Optional
 
 import torch
 from pydantic.dataclasses import dataclass
@@ -43,15 +43,21 @@ def create_dataset_to_extract_rules(*, model: Anfis) -> torch.Tensor:
 
 
 def get_list_of_rules(
-    *, model: Anfis, in_variables: List[LinguisticVariable], out_variable: OutputVariable
+    *,
+    model: Anfis,
+    in_variables: List[LinguisticVariable],
+    out_variable: OutputVariable,
+    data: Optional[torch.Tensor] = None,
 ) -> List[str]:
     if len(in_variables) != model.in_features:
         raise ValueError(f"Expected {model.in_features} input variables, got {len(in_variables)}!")
     if out_variable.n_classes != model.out_features:
         raise ValueError(f"Expected {model.out_features} output variables, got {out_variable.n_classes}!")
 
+    if data is None:
+        data = create_dataset_to_extract_rules(model=model)
+
     softmax = nn.Softmax(dim=1)
-    data = create_dataset_to_extract_rules(model=model)
     result = softmax(model(data)).argmax(dim=1)
     fuzzification = softmax(model.fuzzification(data)).argmax(dim=1)
 
