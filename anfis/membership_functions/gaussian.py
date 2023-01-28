@@ -29,6 +29,9 @@ class GaussianMembershipFunction(MembershipFunction):
         self.mean = nn.Parameter(torch.tensor(mean))
         self.std = nn.Parameter(torch.tensor(std))
 
+    def get_peak_values(self) -> torch.Tensor:
+        return self.std.data
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return torch.exp(-torch.pow(x - self.mean, 2) / (2 * torch.pow(self.std, 2)))
 

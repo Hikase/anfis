@@ -1,2 +1,2 @@
-from .inference import *
+from .fuzzy import *
 from .interpolation import *

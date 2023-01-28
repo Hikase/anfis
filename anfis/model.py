@@ -3,7 +3,7 @@ from typing import List
 import torch
 from torch import nn
 
-from anfis.layers import FuzzyLayer, InferenceLayer, InterpolationLayer
+from anfis.layers import FuzzificationLayer, FuzzyInferenceLayer, InterpolationLayer
 from anfis.membership_functions import MembershipFunction, UniformlyBuilder
 
 __all__ = ["Anfis", "create_anfis"]
@@ -15,12 +15,12 @@ class Anfis(nn.Module):
         self._in_features = len(membership_functions)
         self._out_features = out_features
 
-        self.fuzzy = FuzzyLayer(membership_functions)
-        self.inference = InferenceLayer(
-            n_classes=self.fuzzy.n_classes, n_membership_functions=self.fuzzy.n_membership_functions
+        self.fuzzification = FuzzificationLayer(membership_functions)
+        self.fuzzy_inference = FuzzyInferenceLayer(
+            n_classes=self.fuzzification.n_classes, n_membership_functions=self.fuzzification.n_membership_functions
         )
         self.interpolation = InterpolationLayer(
-            in_features=self.in_features, n_rules=self.inference.n_rules, out_features=out_features
+            in_features=self.in_features, n_rules=self.fuzzy_inference.n_rules, out_features=out_features
         )
 
     @property
@@ -32,7 +32,7 @@ class Anfis(nn.Module):
         return self._out_features
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        inference = self.inference(self.fuzzy(x))
+        inference = self.fuzzy_inference(self.fuzzification(x))
         interpolation = self.interpolation(x)
         return torch.bmm(interpolation, inference.unsqueeze(2)).squeeze(2)
 

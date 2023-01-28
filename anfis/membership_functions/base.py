@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, List
 
+import torch
 from torch import nn
 
 __all__ = ["MembershipFunction", "UniformlyBuilder"]
@@ -13,6 +14,10 @@ class MembershipFunction(nn.Module, ABC):
 
         if self.n_classes < 3:
             raise ValueError("The number of parameters (number of classes) must be greater than or equal to 3!")
+
+    @abstractmethod
+    def get_peak_values(self) -> torch.Tensor:
+        pass
 
     @property
     def n_classes(self) -> int:

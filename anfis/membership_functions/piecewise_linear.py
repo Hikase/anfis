@@ -51,6 +51,9 @@ class TriangularMembershipFunction(MembershipFunction):
         self.peak = nn.Parameter(torch.tensor(peak, dtype=torch.float))
         self.right_feet = nn.Parameter(torch.tensor(right_feet, dtype=torch.float))
 
+    def get_peak_values(self) -> torch.Tensor:
+        return self.peak.data
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return torch.max(
             torch.min(
@@ -139,6 +142,9 @@ class TrapezoidalMembershipFunction(MembershipFunction):
         self.left_peak = nn.Parameter(torch.tensor(left_peak))
         self.right_peak = nn.Parameter(torch.tensor(right_peak))
         self.right_feet = nn.Parameter(torch.tensor(right_feet))
+
+    def get_peak_values(self) -> torch.Tensor:
+        return (self.left_peak.data + self.right_peak.data) / 2
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return torch.max(

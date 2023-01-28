@@ -13,6 +13,3 @@ class InterpolationLayer(nn.Module):
         x = torch.cat([x, torch.ones(x.shape[0], 1)], dim=1)
         x = torch.matmul(self.weight, x.t())
         return x.transpose(0, 2)
-
-    def extra_repr(self) -> str:
-        return f"is_hybrid={self.is_hybrid}"

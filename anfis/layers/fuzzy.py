@@ -1,5 +1,4 @@
 import itertools
-from collections import OrderedDict
 from typing import List
 
 import torch
@@ -7,10 +6,10 @@ from torch import nn
 
 from anfis.membership_functions import MembershipFunction
 
-__all__ = ["FuzzyLayer", "InferenceLayer"]
+__all__ = ["FuzzificationLayer", "FuzzyInferenceLayer"]
 
 
-class FuzzyLayer(nn.Module):
+class FuzzificationLayer(nn.Module):
     def __init__(self, membership_functions: List[MembershipFunction]) -> None:
         super().__init__()
 
@@ -21,9 +20,7 @@ class FuzzyLayer(nn.Module):
 
         self._n_membership_functions = len(membership_functions)
         self.membership_functions = nn.ModuleDict(
-            OrderedDict(
-                zip([f"membership_function_{i}" for i in range(len(membership_functions))], membership_functions)
-            )
+            dict(zip([f"membership_function_{i}" for i in range(len(membership_functions))], membership_functions))
         )
 
     @property
@@ -47,7 +44,7 @@ class FuzzyLayer(nn.Module):
         return x.transpose(1, 2)
 
 
-class InferenceLayer(nn.Module):
+class FuzzyInferenceLayer(nn.Module):
     def __init__(self, *, n_classes: int, n_membership_functions: int):
         super().__init__()
 

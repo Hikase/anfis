@@ -33,6 +33,9 @@ class BellMembershipFunction(MembershipFunction):
         self.center_width = nn.Parameter(torch.tensor(center_width))
         self.slope = nn.Parameter(torch.tensor(slope))
 
+    def get_peak_values(self) -> torch.Tensor:
+        return self.peak.data
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return 1 / (1 + torch.pow(torch.abs((x - self.peak) / self.center_width), 2 * self.slope))
 
