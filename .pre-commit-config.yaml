@@ -20,27 +20,27 @@ repos:
       - id: text-unicode-replacement-char
   - repo: local
     hooks:
-        - id: flake8
-          name: run flake8 in anfis package
-          entry: bash -c "flake8 anfis/"
-          language: python
-          pass_filenames: false
-          types: [ python ]
-        - id: black
-          name: run black in anfis package
-          entry: bash -c "black anfis/"
-          language: python
-          pass_filenames: false
-          types: [ python ]
-        - id: mypy
-          name: run mypy in anfis package
-          entry: bash -c "mypy anfis/"
-          language: python
-          pass_filenames: false
-          types: [ python ]
-        - id: isort
-          name: run isort in anfis package
-          entry: bash -c "isort anfis/"
-          language: python
-          pass_filenames: false
-          types: [ python ]
+      - id: flake8
+        name: run flake8 in anfis package
+        entry: bash -c "flake8 anfis/"
+        language: python
+        pass_filenames: false
+        types: [ python ]
+      - id: black
+        name: run black in anfis package
+        entry: bash -c "black anfis/"
+        language: python
+        pass_filenames: false
+        types: [ python ]
+      - id: mypy
+        name: run mypy in anfis package
+        entry: bash -c "mypy anfis/"
+        language: python
+        pass_filenames: false
+        types: [ python ]
+      - id: isort
+        name: run isort in anfis package
+        entry: bash -c "isort anfis/"
+        language: python
+        pass_filenames: false
+        types: [ python ]
