@@ -1,5 +1,5 @@
 import itertools
-from typing import List, cast, Optional
+from typing import List, Optional, cast
 
 import torch
 from pydantic.dataclasses import dataclass

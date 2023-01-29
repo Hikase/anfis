@@ -4,6 +4,7 @@ version = "0.2.0"
 description = "This is an implementation of the ANFIS using the PyTorch framework"
 authors = ["Hikaru Seki <hikasenyan@gmail.com>"]
 readme = "README.md"
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -16,6 +17,7 @@ flake8 = "^6.0.0"
 black = "^22.12.0"
 mypy = "^0.991"
 isort = "^5.11.4"
+pre-commit = "^3.0.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -60,6 +62,10 @@ warn_required_dynamic_aliases = true
 warn_untyped_fields = true
 
 [tool.isort]
+py_version = 310
 profile = "black"
 line_length = 120
 include_trailing_comma = true
+multi_line_output = 3
+skip_gitignore= true
+use_parentheses = true
