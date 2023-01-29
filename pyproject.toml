@@ -48,12 +48,15 @@ plugins = [
 ]
 
 follow_imports = "silent"
+strict_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true
+disallow_untyped_defs = true
+disallow_untyped_decorators = true
 check_untyped_defs = true
 no_implicit_reexport = true
-disallow_untyped_defs = true
+no_implicit_optional = true
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
@@ -67,5 +70,5 @@ profile = "black"
 line_length = 120
 include_trailing_comma = true
 multi_line_output = 3
-skip_gitignore= true
+skip_gitignore = true
 use_parentheses = true

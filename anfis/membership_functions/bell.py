@@ -11,13 +11,35 @@ __all__ = ["BellParameter", "BellMembershipFunction", "BellUniformlyBuilder"]
 
 @dataclass(kw_only=True, frozen=True)
 class BellParameter:
+    """Bell membership function parameter.
+
+    Attributes:
+        peak (float): Peak value of the Bell membership function.
+        center_width (float): Center width of the Bell membership function.
+        slope (float): Slope of the Bell membership function.
+    """
+
     peak: float
     center_width: float
     slope: float
 
 
 class BellMembershipFunction(MembershipFunction):
+    """Bell membership function.
+
+    Attributes:
+        peak (nn.Parameter): Peak values of the Bell membership function.
+        center_width (nn.Parameter): Center widths of the Bell membership function.
+        slope (nn.Parameter): Slopes of the Bell membership function.
+    """
+
     def __init__(self, parameters: List[BellParameter]):
+        """Bell membership function constructor.
+
+        Args:
+            parameters (List[BellParameter]): Bell membership function parameters.
+        """
+
         super().__init__(parameters)
 
         peak: List[float] = []
@@ -41,11 +63,13 @@ class BellMembershipFunction(MembershipFunction):
 
 
 class BellUniformlyBuilder(UniformlyBuilder):
+    """Uniformly builder of the Bell membership function."""
+
     _center_width_scaling_percentage: float = 0.8
     _slope = 2.0
 
     def _build(self) -> "BellMembershipFunction":
-        step = (self._max_value - self._min_value) / (self._n_classes - 1)
+        step = (self._max_value - self._min_value) / (self._n_terms - 1)
 
         parameters: List[BellParameter] = []
         for peak in torch.arange(self._min_value, self._max_value, step):
@@ -61,12 +85,33 @@ class BellUniformlyBuilder(UniformlyBuilder):
         return BellMembershipFunction(parameters)
 
     def center_width_scaling_percentage(self, value: float) -> "BellUniformlyBuilder":
+        """Set center width scaling percentage.
+
+        Args:
+            value (float): Center width scaling percentage.
+
+        Returns:
+            BellUniformlyBuilder: Self.
+
+        Raises:
+            ValueError: The center width scaling percentage must be between 0 and 1!
+        """
+
         if not 0 <= value <= 1:
             raise ValueError("The center width scaling percentage must be between 0 and 1!")
         self._center_width_scaling_percentage = value
         return self
 
     def slope(self, value: float) -> "BellUniformlyBuilder":
+        """Set slope.
+
+        Args:
+            value (float): Slope.
+
+        Returns:
+            BellUniformlyBuilder: Self.
+        """
+
         self._slope = value
         return self
 
